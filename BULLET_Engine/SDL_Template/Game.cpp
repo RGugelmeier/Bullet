@@ -1,21 +1,22 @@
-#include "Game.h"
+#include "Scene0.h"
 #include "Timer.h"
 #include "SceneManager.h"
+
 
 SDL_Texture* playerTexture;
 SDL_Rect srcRec, destRec;
 
-Game::Game()
+Scene0::Scene0()
 {
 	timer = nullptr;
 }
 
-Game::~Game()
+Scene0::~Scene0()
 {
 
 }
 
-void Game::OnCreate(const char* title, int xPos, int yPos, int width, int height, bool fullScreen)
+bool Scene0::OnCreate(const char* title, int xPos, int yPos, int width, int height, bool fullScreen) 
 {
 	int flags = 0;
 	if (fullScreen)
@@ -42,7 +43,7 @@ void Game::OnCreate(const char* title, int xPos, int yPos, int width, int height
 			std::cout << "Renderer created" << std::endl;
 		}*/
 
-		//currentScene = new Scene0(window);
+		//currentScene0 = new Scene00(window);
 
 		isRunning = true;
 	}
@@ -50,12 +51,14 @@ void Game::OnCreate(const char* title, int xPos, int yPos, int width, int height
 	{
 		std::cout << "SDL_Error: " << SDL_GetError() << std::endl;
 		isRunning = false;
-	}
 
+
+	}
+	return true;
 	//playerTexture = TextureManager::loadTexture("C:/GameDev/GameProductionsAssignment/Assets/Images/shyGuy.png", renderer);
 }
 
-void Game::handleEvents()
+void Scene0::HandleEvents()
 {
 	SDL_Event event;
 	SDL_PollEvent(&event);
@@ -70,7 +73,7 @@ void Game::handleEvents()
 		case SDLK_p:
 			if (timer->isPaused() == false)
 			{
-			timer->Pause();
+				timer->Pause();
 			}
 			else if (timer->isPaused() == true)
 			{
@@ -81,7 +84,7 @@ void Game::handleEvents()
 	}
 }
 
-void Game::update()
+void Scene0::Update()
 {
 	timer->Start();
 	while (isRunning)
@@ -90,11 +93,11 @@ void Game::update()
 
 		std::cout << currentTicks << "\n";
 
-		handleEvents();
+		HandleEvents();
 	}
 }
 
-void Game::render()
+void Scene0::Render() const
 {
 	SDL_RenderClear(renderer);
 
@@ -103,11 +106,11 @@ void Game::render()
 	SDL_RenderPresent(renderer);
 }
 
-/*void Game::clean()
+void Scene0::OnDestroy()
 {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
-	IMG_Quit();
 	std::cout << "Game cleaned." << std::endl;
-}*/
+}
+
