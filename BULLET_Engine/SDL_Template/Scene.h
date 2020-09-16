@@ -1,17 +1,27 @@
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef Scene0_H
+#define Scene0_H
+#include "Scene.h"
+#include "Vec3.h"
 
-union SDL_Event;
+class GameObject;
+class Mesh;
 
-class Scene {
+
+class Scene0 : public Scene
+{
+private:
+	//Camera* camera;
+	GameObject* gameObject;
+	Mesh* meshPtr;
 public:
-	Scene() {}
-	~Scene() {}
-
-	virtual bool OnCreate() = 0;
-	virtual void OnDestroy() = 0;
-	virtual void Update(const float deltaTime) = 0;
-	virtual void Render() const = 0;
-	virtual void HandleEvents(const SDL_Event& sdlEvent) = 0;
+	Scene0();
+	~Scene0();
+	bool OnCreate(const char* title, int xPos, int yPos, int width, int height, bool fullScreen)override;
+	void HandleEvents()override;
+	void Update()override;
+	void Render()const override;
+	void OnDestroy()override;
+	
 };
-#endif
+
+#endi
