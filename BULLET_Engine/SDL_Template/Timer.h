@@ -7,6 +7,9 @@ private:
 	int startTicks; //Time when the timer started.
 	int pausedTicks; //Ticks accumulated while the timer was paused.
 
+	unsigned int prevTicks;
+	unsigned int currentTicks;
+
 	/* paused and started
 		Timer's current status */
 	bool paused;
@@ -25,14 +28,20 @@ public:
 	/* Get the timer's time */
 	Uint32 GetTicks();
 
+	/* Gets delta time. Used to easily see time */
+	float GetDeltaTime() const;
+
+	/* This is used to cap the fps. */
+	unsigned int GetSleepTime(const unsigned int fps_) const;
+
+	/* This updates the current and prev ticks variables every tick. */
+	void UpdateFrameTicks();
+
 	/* Checks the status of the timer */
 	bool isStarted();
 	bool isPaused();
-
-	/*void UpdateFrameTicks();
-	float GetDeltaTime() const;
-	int GetSleepTime(const int fps) const;*/
 };
 
 
 #endif
+
