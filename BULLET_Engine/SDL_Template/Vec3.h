@@ -38,6 +38,14 @@ public:
 
 	Vec3 Cross(const Vec3& a, const Vec3& b);
 
+	inline operator const float* () const {
+		return static_cast<const float*>(&x);
+	}
+
+	inline operator float* () {
+		return static_cast<float*>(&x);
+	}
+
 	float x;
 	float y;
 	float z;
