@@ -1,9 +1,7 @@
 #include "SDL.h"
 #include "Timer.h"
 
-Timer::Timer() {
-	//prevTicks = 0;
-	//currTicks = 0;
+Timer::Timer() : prevTicks(0), currentTicks(0) {
 
 	startTicks = 0;
 	pausedTicks = 0;
@@ -14,14 +12,16 @@ Timer::Timer() {
 
 Timer::~Timer() {}
 
-/*void Timer::UpdateFrameTicks() {
-	prevTicks = currTicks;
-	currTicks = SDL_GetTicks();
-}*/
+void Timer::UpdateFrameTicks() {
+	//Updates the previous and current tick variables every tick.
+	prevTicks = currentTicks;
+	currentTicks = SDL_GetTicks();
+}
 
 void Timer::Start() {
-	/*prevTicks = SDL_GetTicks();
-	currTicks = SDL_GetTicks();*/
+	//Fill previous and current tick variables.
+	prevTicks = SDL_GetTicks();
+	currentTicks = SDL_GetTicks();
 
 	//Start the timer
 	started = true;
@@ -101,6 +101,26 @@ Uint32 Timer::GetTicks()
 	return time;
 }
 
+float Timer::GetDeltaTime() const
+{
+	//Gets delta time.
+	return static_cast<float>(currentTicks - prevTicks) / 1000.0f;
+}
+
+unsigned int Timer::GetSleepTime(const unsigned int fps_) const
+{
+	//This function acts to set the fps to a limit. That way you can easily control the speed at which the timer performs.
+	unsigned int milliSecsPerFrame = 1000 / fps_;
+	if (milliSecsPerFrame == 0) {
+		return 0;
+	}
+	unsigned int sleepTime = milliSecsPerFrame - SDL_GetTicks();
+	if (sleepTime > milliSecsPerFrame) {
+		return milliSecsPerFrame;
+	}
+	return sleepTime;
+}
+
 bool Timer::isStarted()
 {
 	//Timer is running and paused or unpaused
@@ -112,21 +132,3 @@ bool Timer::isPaused()
 	//Timer is running and paused
 	return paused && started;
 }
-
-/*float Timer::GetDeltaTime() const {
-	return (float(currTicks - prevTicks)) / 1000.0f;
-}
-
-int Timer::GetSleepTime(const int fps) const {
-	int milliSecsPerFrame = 1000 / fps;
-	if (milliSecsPerFrame == 0) {
-		return 0;
-	}
-
-	int sleepTime = milliSecsPerFrame - (SDL_GetTicks() - currTicks);
-	if (sleepTime > milliSecsPerFrame) {
-		return milliSecsPerFrame;
-	}
-
-	return sleepTime;
-}*/
