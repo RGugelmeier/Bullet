@@ -1,27 +1,24 @@
-#include "SDL.h"
-#include "Timer.h"
-#include "Game.h"
-#include <iostream>
+#include <GL/glew.h>
+#include <GL/GL.h>
+#include <GLFW/glfw3.h>
+#include <SDL.h>
+#undef main
 
-int main(int argc, char* argv[])
+#include "SceneManager.h"
+#include "Mesh.h"
+#include "Shader.h"
+
+int main(void)
 {
-	Game* game = new Game;
+	glfwInit();
+	glewInit();
+	
+	SceneManager* sceneMan = new SceneManager();
 
-	game->OnCreate("test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,600,400,false);
-	//game->handleEvents();
-	game->update();
-
-	//SDL_Init(SDL_INIT_EVERYTHING); //Initialize SDL
-	//SDL_Window* window = SDL_CreateWindow("Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 600, 400, SDL_WINDOW_SHOWN); //Create window
-	//SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0); //Create renderer
-
-	//SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-
-	//SDL_RenderClear(renderer);
-
-	//SDL_RenderPresent(renderer);
-
-	//SDL_Delay(3000);
+	if (sceneMan->Initialize("Window", 1280, 720) == true)
+	{
+		sceneMan->Run();
+	}
 
 	return 0;
 }
